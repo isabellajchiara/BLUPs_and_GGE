@@ -21,4 +21,4 @@ mixed_mod <- gamem_met(data,
 
 BLUPS <- print(mixed_mod$Adjusted.Yield$BLUPint)
  #will create table of BLUPs
- 
+ #the "Predicted" column contains the predicted means
