@@ -19,5 +19,6 @@ mixed_mod <- gamem_met(data,
             random = "env", #genotypes are fixed. this could also be "gen", making env fixed
             verbose = TRUE) #Default
 
-BLUPS <- print(mixed_mod$Adjusted.Yield$BLUPgen) #will create table of BLUPs
+BLUPS <- print(mixed_mod$Adjusted.Yield$BLUPint)
+ #will create table of BLUPs
  
