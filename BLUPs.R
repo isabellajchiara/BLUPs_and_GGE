@@ -34,25 +34,44 @@ Envs = levels(data$loc)
 stgI_list = matrix(data=list(),nrow=length(Envs), ncol=1,dimnames=list(Envs,c("BLUPS")))
 
 for (i in Envs){
-    Edat = droplevels(subset(data, loc==i))
+    Edat = droplevels(subset(data,loc==i))
 
-    mod.1 <- asreml(fixed = yield ~ loc + rep + loc:rep,
-                random = ~ name + name:loc,
-                sparse = ~ name + name:loc,
+    mod.1 <- asreml(fixed = yield ~ name:rep,
+                random = ~ year + name:year,
+                sparse = ~ year + name:year,
                 data = Edat,
-                predict = predict.asreml(classify="name",vcov=TRUE,aliased = T, fill=TRUE),
+                predict = predict.asreml(classify="name:rep",vcov=TRUE),
                 trace = F,
-                maxit = 500,
-                ai.sing=FALSE)
+                maxit = 500)
 
-blup.1 <- data.table((mod.1$predictions$pvals[1:3]))
-names(blup.1) <- c("name","yield","se")
-blup.1$loc = i
-stgI_list[[i,"BLUPS"]] <- blup.1
-blups_stage1 <<- do.call(rbind, stgI_list)
+blue.1 <- data.table((mod.1$predictions$pvals[1:4]))
+names(blue.1) <- c("name","rep","yield","se")
+blue.1$loc = i
+stgI_list[[i,"BLUPS"]] <- blue.1
+blues_stage1 <<- do.call(rbind, stgI_list)
 }
 
 #
 
-blups_stage1 = as.data.frame(blups_stage1)
+data = blues_stage1
+Envs = levels(data$loc)
+stgI_list = matrix(data=list(),nrow=length(Envs), ncol=1,dimnames=list(Envs,c("BLUPS")))
 
+for (i in Envs){
+  Edat = droplevels(subset(data, loc==i))
+  
+  mod.2 <- asreml(fixed = yield ~ loc,
+                  random = ~ name + name:loc,
+                  sparse = ~ name + name:loc,
+                  data = Edat,
+                  predict = predict.asreml(classify="name",vcov=TRUE,aliased = T, fill=TRUE),
+                  trace = F,
+                  maxit = 500,
+                  ai.sing=FALSE)
+  
+  blup.1 <- data.table((mod.2$predictions$pvals[1:3]))
+  names(blup.1) <- c("name","yield","se")
+  blup.1$loc = i
+  stgI_list[[i,"BLUPS"]] <- blup.1
+  blups_stage2 <<- do.call(rbind, stgI_list)
+}
