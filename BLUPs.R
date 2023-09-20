@@ -31,23 +31,24 @@ data[cols] <- lapply(data[cols], factor)
 data$yield = as.numeric(data$yield)
 
 Envs = levels(data$loc)
-stgI_list = matrix(data=list(),nrow=length(Envs), ncol=1,dimnames=list(Envs,c("BLUPS")))
+stgI_list = matrix(data=list(),nrow=length(Envs), ncol=1,dimnames=list(Envs,c("BLUES")))
 
 for (i in Envs){
     Edat = droplevels(subset(data,loc==i))
 
     mod.1 <- asreml(fixed = yield ~ name:rep,
                 random = ~ year + name:year,
-                sparse = ~ year + name:year,
+                sparse = ~ year + name:year + name:rep,
                 data = Edat,
-                predict = predict.asreml(classify="name:rep",vcov=TRUE),
+                predict = predict.asreml(classify="name:rep",vcov=TRUE,aliased = T, fill=TRUE),
+                ai.sing=FALSE,
                 trace = F,
                 maxit = 500)
 
 blue.1 <- data.table((mod.1$predictions$pvals[1:4]))
 names(blue.1) <- c("name","rep","yield","se")
 blue.1$loc = i
-stgI_list[[i,"BLUPS"]] <- blue.1
+stgI_list[[i,"BLUES"]] <- blue.1
 blues_stage1 <<- do.call(rbind, stgI_list)
 }
 
