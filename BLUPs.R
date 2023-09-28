@@ -42,7 +42,7 @@ for (i in Envs){
 
     mod.1 <- asreml(fixed = yield ~ name:rep,
                 random = ~ year + name:year,
-                sparse = ~ year + name:year + name:rep,
+                sparse = ~ year + name:year + name:rep, # full variance-covariance matrix is not required.
                 data = Edat,
                 predict = predict.asreml(classify="name:rep",vcov=TRUE,aliased = T, fill=TRUE),
                 ai.sing=FALSE,
