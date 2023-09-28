@@ -1,3 +1,4 @@
+# load packages 
 install.packages("data.table")
 install.packages("ggplot2")
 install.packages("jsonlite")
@@ -12,7 +13,8 @@ library(jsonlite)
 
 asreml.license.activate() 
 
-data = read.csv("KelvinDataCommon.csv")
+# load and organize data
+data = read.csv("KelvinData.csv")
 data = data[,-1]
 
 env = list()
@@ -29,6 +31,8 @@ colnames(data) = c("name","loc","year","rep","yield","year_loc")
 cols = c("name","loc","year","rep","yield","year_loc")
 data[cols] <- lapply(data[cols], factor)
 data$yield = as.numeric(data$yield)
+
+#Estimate BLUEs for each location adjusting by year
 
 Envs = levels(data$loc)
 stgI_list = matrix(data=list(),nrow=length(Envs), ncol=1,dimnames=list(Envs,c("BLUES")))
@@ -58,6 +62,7 @@ data = blues_stage1
 Envs = levels(data$loc)
 stgI_list = matrix(data=list(),nrow=length(Envs), ncol=1,dimnames=list(Envs,c("BLUPS")))
 
+# Use BLUEs to determine variation caused by G,E, & GE (across locations)
 for (i in Envs){
   Edat = droplevels(subset(data, loc==i))
   
