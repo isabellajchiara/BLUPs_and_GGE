@@ -15,7 +15,6 @@ asreml.license.activate()
 
 # load and organize data
 data = read.csv("KelvinData.csv")
-data = data[,-1]
 
 env = list()
 for (x in 1:nrow(data)){
