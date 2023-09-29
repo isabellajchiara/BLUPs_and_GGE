@@ -1,8 +1,8 @@
-# DATA TABLE IS READY BIPLOT ANALYSIS BELOW 
-# Data table was created using "makeGGEmat.R"
 
 # for svp 2 is column preserving - environment eigenvectors (for evaluating environments)
 # for svp 1 is row preserving - genotype eigenvectors (for evaluating GXE)
+
+##Load data table created in BLUPs.R
 dataUpdated = read_xlsx("BLUPsTwoStep.xlsx")
 
 ##BASICBIPLOT
