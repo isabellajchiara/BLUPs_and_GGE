@@ -3,6 +3,7 @@
 
 # for svp 2 is column preserving - environment eigenvectors (for evaluating environments)
 # for svp 1 is row preserving - genotype eigenvectors (for evaluating GXE)
+dataUpdated = read_xlsx("BLUPsTwoStep.xlsx")
 
 ##BASICBIPLOT
 gge_model = gge(dataUpdated,env,geno,yield, centering = "2", scaling ="sd", svp="2") 
