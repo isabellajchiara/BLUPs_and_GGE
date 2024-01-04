@@ -4,7 +4,7 @@ install.packages("ggplot2")
 install.packages("jsonlite")
 
 install.packages("/Users/justin_folders/Downloads/asreml-4.1.0.176-macOS-10.13.2-R4.1.tar.gz",
-repos = NULL, type = "source")
+repos = NULL, type = "source") #this step is for downloading asreml - the path will be specifict to your computer so you need to change the pathway for it to work  
 
 library(asreml)
 library(data.table)
@@ -15,6 +15,7 @@ asreml.license.activate()
 
 # load and organize data
 data = read.csv("KelvinData.csv")
+#data has four columns: Genotype, Location, Year, Rep, Adjusted Yield 
 
 env = list()
 for (x in 1:nrow(data)){
